@@ -63,8 +63,8 @@ set -e
 echo ""
 
 # Check for critical failures (ignore expected ones like npm/pip not found)
-CRITICAL_FAILURES=$(grep -c "fatal:" /tmp/ansible-dry-run.log 2>/dev/null || echo "0")
-EXPECTED_FAILURES=$(grep -c "Failed to find required executable" /tmp/ansible-dry-run.log 2>/dev/null || echo "0")
+CRITICAL_FAILURES=$(grep -c "fatal:" /tmp/ansible-dry-run.log 2>/dev/null) || CRITICAL_FAILURES=0
+EXPECTED_FAILURES=$(grep -c "Failed to find required executable" /tmp/ansible-dry-run.log 2>/dev/null) || EXPECTED_FAILURES=0
 ACTUAL_FAILURES=$((CRITICAL_FAILURES - EXPECTED_FAILURES))
 
 if [[ ${ACTUAL_FAILURES} -gt 0 ]]; then
