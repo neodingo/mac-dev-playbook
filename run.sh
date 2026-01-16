@@ -50,6 +50,20 @@ if ! echo "${BECOME_PASS}" | sudo -S -v &>/dev/null; then
     exit 1
 fi
 
+# Create askpass helper for Homebrew (needed for casks that require sudo internally)
+ASKPASS_SCRIPT=$(mktemp)
+chmod 700 "${ASKPASS_SCRIPT}"
+# Use printf to avoid issues with special characters in password
+printf '#!/bin/bash\necho "%s"\n' "${BECOME_PASS//\"/\\\"}" > "${ASKPASS_SCRIPT}"
+export SUDO_ASKPASS="${ASKPASS_SCRIPT}"
+export HOMEBREW_SUDO_ASKPASS="${ASKPASS_SCRIPT}"
+
+# Cleanup function to remove askpass script
+cleanup() {
+    rm -f "${ASKPASS_SCRIPT}" 2>/dev/null
+}
+trap cleanup EXIT
+
 # Run dry run
 echo -e "${BLUE}==> Running dry-run (check mode)...${NC}"
 echo ""
