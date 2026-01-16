@@ -23,6 +23,15 @@ else
     echo "    Xcode Command Line Tools already installed."
 fi
 
+# Install Rosetta 2 (needed for Intel apps like PS Remote Play)
+echo "==> Checking for Rosetta 2..."
+if ! /usr/bin/pgrep -q oahd; then
+    echo "    Installing Rosetta 2..."
+    /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+else
+    echo "    Rosetta 2 already installed."
+fi
+
 # Check for Homebrew
 echo "==> Checking for Homebrew..."
 if ! command -v brew &>/dev/null; then
@@ -91,6 +100,14 @@ ansible-galaxy install -r requirements.yml
 
 echo ""
 echo "==> Bootstrap complete!"
+echo ""
+echo "========================================================================"
+echo "  IMPORTANT: Before running the playbook, please ensure you are"
+echo "  logged in to the Mac App Store to install apps like Xcode,"
+echo "  Tailscale, etc."
+echo ""
+echo "  Open the App Store app and sign in with your Apple ID if needed."
+echo "========================================================================"
 echo ""
 echo "To run the playbook:"
 echo "  ./run.sh"
