@@ -10,10 +10,12 @@
     path: ~/Development/dotfiles/.git
   register: dotfiles_git
 
-- name: Initialize git repository for dotfiles.
+- name: Initialize git repository for dotfiles.  # noqa: command-instead-of-module
+  # Using command because ansible.builtin.git module only supports clone, not init
   command: git init
   args:
     chdir: ~/Development/dotfiles
+    creates: ~/Development/dotfiles/.git
   when: not dotfiles_git.stat.exists
 
 - name: Create starter .zshrc if not exists.

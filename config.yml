@@ -94,10 +94,10 @@ homebrew_cask_apps:
 # Requires being signed in to the App Store
 # Find IDs at: https://apps.apple.com (ID is in the URL)
 mas_installed_apps:
-  - { id: 497799835, name: "Xcode" }
-  - { id: 1475387142, name: "Tailscale" }
-  - { id: 6444050820, name: "Draw Things" }
-  - { id: 1136220934, name: "Infuse" }
+  - {id: 497799835, name: "Xcode"}
+  - {id: 1475387142, name: "Tailscale"}
+  - {id: 6444050820, name: "Draw Things"}
+  - {id: 1136220934, name: "Infuse"}
 
 # Note: PS Remote Play is installed via tasks/custom/ps-remote-play.yml
 
