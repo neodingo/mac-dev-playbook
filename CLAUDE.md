@@ -1,0 +1,73 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+This is an Ansible playbook for automating macOS development environment setup. It installs and configures software via Homebrew, Mac App Store, dotfiles, and various package managers.
+
+## Common Commands
+
+### Run the playbook
+```bash
+ansible-playbook main.yml --ask-become-pass
+```
+
+### Install dependencies (required before first run)
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
+### Run specific tagged tasks
+```bash
+ansible-playbook main.yml -K --tags "dotfiles,homebrew"
+```
+Available tags: `dotfiles`, `homebrew`, `mas`, `extra-packages`, `osx`, `dock`, `terminal`, `sudoers`, `sublime-text`, `post`
+
+### Linting
+```bash
+yamllint .
+ansible-lint
+```
+
+### Test playbook syntax
+```bash
+ansible-playbook main.yml --syntax-check
+```
+
+## Architecture
+
+### Configuration
+- `default.config.yml` - Default configuration values (do not modify for personal use)
+- `config.yml` - User overrides (create this file, not tracked in git)
+- Variables in `config.yml` override those in `default.config.yml`
+
+### Main Playbook Structure (`main.yml`)
+The playbook runs in this order:
+1. **Roles** (external Ansible roles):
+   - `elliotweiser.osx-command-line-tools` - Ensures Xcode CLI tools installed
+   - `geerlingguy.mac.homebrew` - Manages Homebrew packages and casks
+   - `geerlingguy.dotfiles` - Clones and symlinks dotfiles
+   - `geerlingguy.mac.mas` - Mac App Store app installation
+   - `geerlingguy.mac.dock` - Dock configuration via dockutil
+
+2. **Tasks** (in `tasks/` directory):
+   - `sudoers.yml` - Custom sudoers configuration
+   - `terminal.yml` - Terminal.app preferences
+   - `osx.yml` - Runs the `.osx` dotfile script
+   - `extra-packages.yml` - Composer, gem, npm, pip packages
+   - `sublime-text.yml` - Sublime Text package configuration
+
+3. **Post-provision tasks** - Custom task files via `post_provision_tasks` variable
+
+### External Dependencies (`requirements.yml`)
+- `elliotweiser.osx-command-line-tools` - Role
+- `geerlingguy.dotfiles` - Role
+- `geerlingguy.mac` - Collection (includes homebrew, mas, dock roles)
+
+### Key Configuration Variables
+- `homebrew_installed_packages` / `homebrew_cask_apps` - Packages to install
+- `mas_installed_apps` - Mac App Store apps (requires App Store login)
+- `configure_*` booleans - Toggle features: `dotfiles`, `terminal`, `osx`, `dock`, `sudoers`, `sublime`
+- `*_packages` - Extra packages: `composer_packages`, `gem_packages`, `npm_packages`, `pip_packages`
+- `post_provision_tasks` - Glob pattern for additional task files to run at the end
