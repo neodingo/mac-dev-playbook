@@ -1,0 +1,106 @@
+---
+- name: Create dotfiles directory.
+  file:
+    path: ~/Development/dotfiles
+    state: directory
+    mode: "0755"
+
+- name: Check if dotfiles repo is already initialized.
+  stat:
+    path: ~/Development/dotfiles/.git
+  register: dotfiles_git
+
+- name: Initialize git repository for dotfiles.
+  command: git init
+  args:
+    chdir: ~/Development/dotfiles
+  when: not dotfiles_git.stat.exists
+
+- name: Create starter .zshrc if not exists.
+  copy:
+    dest: ~/Development/dotfiles/.zshrc
+    content: |
+      # Zsh configuration
+      # Add your customizations here
+
+      # History settings
+      HISTSIZE=10000
+      SAVEHIST=10000
+      HISTFILE=~/.zsh_history
+
+      # Useful aliases
+      alias ll='ls -la'
+      alias gs='git status'
+      alias gp='git pull'
+
+      # Path additions
+      export PATH="$HOME/.local/bin:$PATH"
+    force: false
+    mode: "0644"
+
+- name: Create starter .gitconfig if not exists.
+  copy:
+    dest: ~/Development/dotfiles/.gitconfig
+    content: |
+      [init]
+          defaultBranch = main
+      [pull]
+          rebase = false
+      [core]
+          editor = code --wait
+      [alias]
+          st = status
+          co = checkout
+          br = branch
+          ci = commit
+    force: false
+    mode: "0644"
+
+- name: Create starter .vimrc if not exists.
+  copy:
+    dest: ~/Development/dotfiles/.vimrc
+    content: |
+      " Basic Vim configuration
+      set number
+      set relativenumber
+      set tabstop=4
+      set shiftwidth=4
+      set expandtab
+      set autoindent
+      set hlsearch
+      set incsearch
+      syntax on
+    force: false
+    mode: "0644"
+
+- name: Create README for dotfiles repo.
+  copy:
+    dest: ~/Development/dotfiles/README.md
+    content: |
+      # My Dotfiles
+
+      Personal configuration files managed by [mac-dev-playbook](https://github.com/geerlingguy/mac-dev-playbook).
+
+      ## Files
+
+      - `.zshrc` - Zsh shell configuration
+      - `.gitconfig` - Git configuration
+      - `.vimrc` - Vim configuration
+
+      ## Usage
+
+      These dotfiles are automatically symlinked to your home directory by the mac-dev-playbook.
+
+      To push to GitHub:
+      ```bash
+      cd ~/Development/dotfiles
+      gh repo create dotfiles --private --source=. --push
+      ```
+    force: false
+    mode: "0644"
+
+- name: Display dotfiles setup message.
+  debug:
+    msg: >-
+      Dotfiles repo initialized at ~/Development/dotfiles.
+      To push to GitHub, run: cd ~/Development/dotfiles && gh repo create dotfiles --private --source=. --push

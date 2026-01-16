@@ -5,8 +5,14 @@
 # =============================================================================
 # DOTFILES
 # =============================================================================
-# Disabled until you create your own dotfiles repository.
-# When ready, set configure_dotfiles: true and update the repo URL.
+# The geerlingguy.dotfiles role is disabled since we don't have a remote repo yet.
+# Instead, tasks/custom/dotfiles-init.yml creates a local dotfiles repo with
+# starter files at ~/Development/dotfiles.
+#
+# After running the playbook, push to GitHub with:
+#   cd ~/Development/dotfiles && gh repo create dotfiles --private --source=. --push
+#
+# Then enable the dotfiles role by uncommenting below:
 configure_dotfiles: false
 # dotfiles_repo: https://github.com/YOUR_USERNAME/dotfiles.git
 # dotfiles_repo_local_destination: ~/Development/dotfiles
@@ -141,6 +147,5 @@ composer_packages: []
 # =============================================================================
 # POST-PROVISION TASKS
 # =============================================================================
-# Uncomment to run custom tasks from tasks/custom/*.yml
-# post_provision_tasks:
-#   - "{{ playbook_dir }}/tasks/custom/*.yml"
+post_provision_tasks:
+  - "{{ playbook_dir }}/tasks/custom/*.yml"
