@@ -60,6 +60,15 @@ else
     echo "    Python already installed."
 fi
 
+# Install mas (Mac App Store CLI) for MAS app installation
+echo "==> Checking for mas (Mac App Store CLI)..."
+if ! brew list mas &>/dev/null; then
+    echo "    Installing mas..."
+    brew install mas
+else
+    echo "    mas already installed."
+fi
+
 # Determine which Python to use (prefer Homebrew)
 if [[ -x "$(brew --prefix)/bin/python3" ]]; then
     PYTHON_BIN="$(brew --prefix)/bin/python3"
