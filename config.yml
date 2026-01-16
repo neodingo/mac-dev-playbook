@@ -115,6 +115,15 @@ dockitems_remove:
   - Maps
   - FaceTime
   - Freeform
+  - Apps
+  - Messages
+  - Photos
+  - Phone
+  - Contacts
+  - Music
+  - Games
+  - App Store
+  - iPhone Mirroring
 
 dockitems_persist:
   - name: "Google Chrome"
