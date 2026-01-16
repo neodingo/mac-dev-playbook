@@ -36,6 +36,7 @@ dotfiles_files:
 homebrew_installed_packages:
   # - ansible # Installed via Pip.
   - autoconf
+  - dockutil
   - bash-completion
   - doxygen
   - gettext

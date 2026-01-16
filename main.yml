@@ -17,7 +17,9 @@
       become: true
       register: xcode_license_result
       changed_when: "'license accepted' in xcode_license_result.stdout | default('')"
-      failed_when: false
+      failed_when: >
+        xcode_license_result.rc != 0
+        and 'already agreed' not in (xcode_license_result.stderr | default(''))
       when: "'/usr/bin/xcodebuild' is exists"
       tags: ['always']
 
