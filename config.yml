@@ -99,8 +99,7 @@ mas_installed_apps:
   - { id: 6444050820, name: "Draw Things" }
   - { id: 1136220934, name: "Infuse" }
 
-# Note: PS Remote Play is not in Mac App Store
-# Download from: https://www.playstation.com/en-us/remote-play/
+# Note: PS Remote Play is installed via tasks/custom/ps-remote-play.yml
 
 # =============================================================================
 # DOCK CONFIGURATION

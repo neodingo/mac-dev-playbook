@@ -1,0 +1,28 @@
+---
+- name: Check if PS Remote Play is already installed.
+  stat:
+    path: "/Applications/PS Remote Play.app"
+  register: ps_remote_play_app
+
+- name: Download PS Remote Play installer.
+  get_url:
+    url: https://remoteplay.dl.playstation.net/remoteplay/module/mac/RemotePlayInstaller.pkg
+    dest: /tmp/RemotePlayInstaller.pkg
+    mode: "0644"
+  when: not ps_remote_play_app.stat.exists
+
+- name: Install PS Remote Play.
+  become: true
+  command: installer -pkg /tmp/RemotePlayInstaller.pkg -target /
+  when: not ps_remote_play_app.stat.exists
+
+- name: Clean up PS Remote Play installer.
+  file:
+    path: /tmp/RemotePlayInstaller.pkg
+    state: absent
+  when: not ps_remote_play_app.stat.exists
+
+- name: Display PS Remote Play installation status.
+  debug:
+    msg: "PS Remote Play is installed at /Applications/PS Remote Play.app"
+  when: ps_remote_play_app.stat.exists or not ps_remote_play_app.stat.exists
