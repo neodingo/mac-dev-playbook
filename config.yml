@@ -1,0 +1,146 @@
+---
+# Personal configuration for M4 Air
+# This file overrides default.config.yml
+
+# =============================================================================
+# DOTFILES
+# =============================================================================
+# Disabled until you create your own dotfiles repository.
+# When ready, set configure_dotfiles: true and update the repo URL.
+configure_dotfiles: false
+# dotfiles_repo: https://github.com/YOUR_USERNAME/dotfiles.git
+# dotfiles_repo_local_destination: ~/Development/dotfiles
+# dotfiles_repo_version: main
+# dotfiles_files:
+#   - .zshrc
+#   - .gitconfig
+#   - .vimrc
+
+# =============================================================================
+# FEATURE TOGGLES
+# =============================================================================
+configure_terminal: false
+configure_osx: false
+configure_dock: true
+configure_sudoers: false
+configure_sublime: false
+
+# =============================================================================
+# HOMEBREW CLI PACKAGES
+# =============================================================================
+homebrew_installed_packages:
+  # Version control
+  - git
+  - gh          # GitHub CLI
+  - glab        # GitLab CLI
+
+  # Languages & runtimes
+  - node
+  - python
+  - go
+  - rust
+
+  # DevOps & Cloud
+  - docker-compose
+  - terraform
+
+  # Database clients
+  - postgresql
+  - mysql
+
+  # Utilities
+  - jq          # JSON processor
+  - tmux        # Terminal multiplexer
+  - pandoc      # Document converter
+  - btop        # Resource monitor
+  - htop        # Process viewer
+  - tree        # Directory tree viewer
+  - mc          # Midnight Commander file manager
+  - uv          # Fast Python package manager
+
+  # .NET
+  - dotnet
+
+  # Keep useful defaults
+  - wget
+  - openssl
+  - readline
+
+# =============================================================================
+# HOMEBREW CASK APPS (GUI)
+# =============================================================================
+homebrew_cask_apps:
+  # Development
+  - visual-studio-code
+  - iterm2
+  - docker
+
+  # Browser
+  - google-chrome
+
+  # Media
+  - spotify
+  - iina        # Modern video player
+
+# =============================================================================
+# MAC APP STORE APPS
+# =============================================================================
+# Requires being signed in to the App Store
+# Find IDs at: https://apps.apple.com (ID is in the URL)
+mas_installed_apps:
+  - { id: 497799835, name: "Xcode" }
+  - { id: 1475387142, name: "Tailscale" }
+  - { id: 6444050820, name: "Draw Things" }
+  - { id: 1136220934, name: "Infuse" }
+
+# Note: PS Remote Play is not in Mac App Store
+# Download from: https://www.playstation.com/en-us/remote-play/
+
+# =============================================================================
+# DOCK CONFIGURATION
+# =============================================================================
+dockitems_remove:
+  - Launchpad
+  - TV
+  - Podcasts
+  - News
+  - Keynote
+  - Numbers
+  - Pages
+  - Maps
+  - FaceTime
+  - Freeform
+
+dockitems_persist:
+  - name: "Google Chrome"
+    path: "/Applications/Google Chrome.app/"
+    pos: 1
+  - name: "iTerm"
+    path: "/Applications/iTerm.app/"
+    pos: 2
+  - name: "Visual Studio Code"
+    path: "/Applications/Visual Studio Code.app/"
+    pos: 3
+  - name: "Spotify"
+    path: "/Applications/Spotify.app/"
+    pos: 4
+
+# =============================================================================
+# EXTRA PACKAGES
+# =============================================================================
+npm_packages:
+  - name: typescript
+
+pip_packages:
+  - name: pydantic
+
+gem_packages: []
+
+composer_packages: []
+
+# =============================================================================
+# POST-PROVISION TASKS
+# =============================================================================
+# Uncomment to run custom tasks from tasks/custom/*.yml
+# post_provision_tasks:
+#   - "{{ playbook_dir }}/tasks/custom/*.yml"
