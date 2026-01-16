@@ -51,11 +51,23 @@ else
     echo "    Python already installed."
 fi
 
+# Determine which Python to use (prefer Homebrew)
+if [[ -x "$(brew --prefix)/bin/python3" ]]; then
+    PYTHON_BIN="$(brew --prefix)/bin/python3"
+elif [[ -x "$(brew --prefix python@3.12)/bin/python3" ]]; then
+    PYTHON_BIN="$(brew --prefix python@3.12)/bin/python3"
+elif [[ -x "$(brew --prefix python@3.11)/bin/python3" ]]; then
+    PYTHON_BIN="$(brew --prefix python@3.11)/bin/python3"
+else
+    PYTHON_BIN="python3"
+fi
+echo "    Using Python: ${PYTHON_BIN}"
+
 # Create virtual environment
 echo "==> Setting up Python virtual environment..."
 if [[ ! -d "${VENV_DIR}" ]]; then
     echo "    Creating virtual environment at ${VENV_DIR}..."
-    python3 -m venv "${VENV_DIR}"
+    "${PYTHON_BIN}" -m venv "${VENV_DIR}"
 else
     echo "    Virtual environment already exists."
 fi
