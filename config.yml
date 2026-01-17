@@ -94,6 +94,9 @@ homebrew_cask_apps:
   - spotify
   - iina        # Modern video player
 
+  # Gaming
+  - steam
+
   # AI/ML
   - claude      # Claude desktop app
   - lm-studio   # Local LLM runner
