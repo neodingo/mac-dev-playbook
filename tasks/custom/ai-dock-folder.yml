@@ -27,6 +27,8 @@
     --sort name
     --replacing 'AI'
     --no-restart
+  register: dockutil_result
+  changed_when: "'already exists' not in dockutil_result.stderr | default('')"
 
 - name: Display AI dock folder status.
   debug:
