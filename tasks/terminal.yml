@@ -7,14 +7,14 @@
   failed_when: false
   check_mode: false
 
-- name: Ensure custom Terminal profile is added.
+- name: Copy custom Terminal profile to temp directory.
   copy:
     src: files/terminal/JJG-Term.terminal
     dest: /tmp/JJG-Term.terminal
   changed_when: false
   when: "'JJG-Term' not in terminal_theme.stdout"
 
-- name: Ensure custom Terminal profile is added.
+- name: Import custom Terminal profile via open command.
   command: open /tmp/JJG-Term.terminal
   changed_when: false
   when: "'JJG-Term' not in terminal_theme.stdout"
