@@ -35,6 +35,15 @@ ansible-lint
 ansible-playbook main.yml --syntax-check
 ```
 
+### Dry run (check mode)
+```bash
+ansible-playbook main.yml -K --check --diff
+```
+
+## CI
+
+GitHub Actions runs lint and integration tests on PRs and pushes to master. Integration tests run the full playbook on macOS 14 and 15 and verify idempotence.
+
 ## Architecture
 
 ### Configuration
@@ -61,9 +70,10 @@ The playbook runs in this order:
 3. **Post-provision tasks** - Custom task files via `post_provision_tasks` variable
 
 ### External Dependencies (`requirements.yml`)
-- `elliotweiser.osx-command-line-tools` - Role
-- `geerlingguy.dotfiles` - Role
+- `elliotweiser.osx-command-line-tools` - Role for Xcode CLI tools
+- `geerlingguy.dotfiles` - Role for dotfiles management
 - `geerlingguy.mac` - Collection (includes homebrew, mas, dock roles)
+- `community.general` - Collection for additional modules
 
 ### Key Configuration Variables
 - `homebrew_installed_packages` / `homebrew_cask_apps` - Packages to install
