@@ -91,6 +91,9 @@ homebrew_cask_apps:
   - spotify
   - iina        # Modern video player
 
+  # AI/ML
+  - lm-studio   # Local LLM runner
+
 # =============================================================================
 # MAC APP STORE APPS
 # =============================================================================
