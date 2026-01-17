@@ -1,5 +1,6 @@
 ---
 exclude_paths:
+  - .venv
   - roles/elliotweiser.osx-command-line-tools
 
 skip_list:
