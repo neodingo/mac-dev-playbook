@@ -5,22 +5,14 @@
 # =============================================================================
 # DOTFILES
 # =============================================================================
-# The geerlingguy.dotfiles role is disabled since we don't have a remote repo yet.
-# Instead, tasks/custom/dotfiles-init.yml creates a local dotfiles repo with
-# starter files at ~/Development/dotfiles.
-#
-# After running the playbook, push to GitHub with:
-#   cd ~/Development/dotfiles && gh repo create dotfiles --private --source=. --push
-#
-# Then enable the dotfiles role by uncommenting below:
-configure_dotfiles: false
-# dotfiles_repo: https://github.com/YOUR_USERNAME/dotfiles.git
-# dotfiles_repo_local_destination: ~/Development/dotfiles
-# dotfiles_repo_version: main
-# dotfiles_files:
-#   - .zshrc
-#   - .gitconfig
-#   - .vimrc
+configure_dotfiles: true
+dotfiles_repo: git@github.com:neodingo/dotfiles.git
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_local_destination: ~/Development/dotfiles
+dotfiles_repo_version: master
+dotfiles_files:
+  - .zshrc
+  - .claude.json
 
 # =============================================================================
 # FEATURE TOGGLES
