@@ -1,13 +1,32 @@
 #!/bin/bash
 #
 # Run script for mac-dev-playbook
-# Performs a dry run, then asks user to confirm before executing
+# Use --dry-run to preview changes before executing
 #
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_DIR="${SCRIPT_DIR}/.venv"
+DRY_RUN=false
+
+# Parse arguments
+for arg in "$@"; do
+    case $arg in
+        --dry-run|-n)
+            DRY_RUN=true
+            shift
+            ;;
+        --help|-h)
+            echo "Usage: ./run.sh [OPTIONS]"
+            echo ""
+            echo "Options:"
+            echo "  --dry-run, -n    Run in check mode first, then confirm before executing"
+            echo "  --help, -h       Show this help message"
+            exit 0
+            ;;
+    esac
+done
 
 # Colors for output
 RED='\033[0;31m'
@@ -54,8 +73,7 @@ echo ""
 
 # Get sudo password upfront
 echo -e "${YELLOW}==> Sudo password required for playbook execution${NC}"
-echo "Please enter your password (it will be used for both dry-run and execution):"
-read -s BECOME_PASS
+read -s -p "Password: " BECOME_PASS
 echo ""
 
 # Verify password is correct
@@ -78,53 +96,55 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Run dry run
-echo -e "${BLUE}==> Running dry-run (check mode)...${NC}"
-echo ""
+# Run dry-run if requested
+if [[ "${DRY_RUN}" == "true" ]]; then
+    echo -e "${BLUE}==> Running dry-run (check mode)...${NC}"
+    echo ""
 
-# Run ansible with the password, allowing some failures (like npm not existing yet)
-set +e
-echo "${BECOME_PASS}" | ansible-playbook main.yml --check --become-password-file=/dev/stdin 2>&1 | tee /tmp/ansible-dry-run.log
-DRY_RUN_EXIT=$?
-set -e
+    # Run ansible with the password, allowing some failures (like npm not existing yet)
+    set +e
+    echo "${BECOME_PASS}" | ansible-playbook main.yml --check --become-password-file=/dev/stdin 2>&1 | tee /tmp/ansible-dry-run.log
+    DRY_RUN_EXIT=$?
+    set -e
 
-echo ""
+    echo ""
 
-# Check for critical failures (ignore expected ones like npm/pip not found)
-CRITICAL_FAILURES=$(grep -c "fatal:" /tmp/ansible-dry-run.log 2>/dev/null) || CRITICAL_FAILURES=0
-EXPECTED_FAILURES=$(grep -c "Failed to find required executable" /tmp/ansible-dry-run.log 2>/dev/null) || EXPECTED_FAILURES=0
-ACTUAL_FAILURES=$((CRITICAL_FAILURES - EXPECTED_FAILURES))
+    # Check for critical failures (ignore expected ones like npm/pip not found)
+    CRITICAL_FAILURES=$(grep -c "fatal:" /tmp/ansible-dry-run.log 2>/dev/null) || CRITICAL_FAILURES=0
+    EXPECTED_FAILURES=$(grep -c "Failed to find required executable" /tmp/ansible-dry-run.log 2>/dev/null) || EXPECTED_FAILURES=0
+    ACTUAL_FAILURES=$((CRITICAL_FAILURES - EXPECTED_FAILURES))
 
-if [[ ${ACTUAL_FAILURES} -gt 0 ]]; then
-    echo -e "${RED}==> Dry-run completed with ${ACTUAL_FAILURES} unexpected failure(s).${NC}"
-    echo "Review the output above for details."
+    if [[ ${ACTUAL_FAILURES} -gt 0 ]]; then
+        echo -e "${RED}==> Dry-run completed with ${ACTUAL_FAILURES} unexpected failure(s).${NC}"
+        echo "Review the output above for details."
+        echo ""
+    fi
+
+    if [[ ${EXPECTED_FAILURES} -gt 0 ]]; then
+        echo -e "${YELLOW}==> Note: ${EXPECTED_FAILURES} expected failure(s) due to missing executables (npm/pip/gem).${NC}"
+        echo "   These will resolve when packages are actually installed."
+        echo ""
+    fi
+
+    # Show summary
+    echo -e "${GREEN}==> Dry-run complete.${NC}"
+    echo ""
+
+    # Ask user to proceed
+    echo -e "${YELLOW}Would you like to proceed with the actual installation?${NC}"
+    echo "This will install and configure software on your system."
+    echo ""
+    read -p "Proceed? [y/N] " -n 1 -r
+    echo ""
+
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo ""
+        echo "Aborted. No changes were made."
+        exit 0
+    fi
     echo ""
 fi
 
-if [[ ${EXPECTED_FAILURES} -gt 0 ]]; then
-    echo -e "${YELLOW}==> Note: ${EXPECTED_FAILURES} expected failure(s) due to missing executables (npm/pip/gem).${NC}"
-    echo "   These will resolve when packages are actually installed."
-    echo ""
-fi
-
-# Show summary
-echo -e "${GREEN}==> Dry-run complete.${NC}"
-echo ""
-
-# Ask user to proceed
-echo -e "${YELLOW}Would you like to proceed with the actual installation?${NC}"
-echo "This will install and configure software on your system."
-echo ""
-read -p "Proceed? [y/N] " -n 1 -r
-echo ""
-
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo ""
-    echo "Aborted. No changes were made."
-    exit 0
-fi
-
-echo ""
 echo -e "${BLUE}==> Running playbook...${NC}"
 echo ""
 
