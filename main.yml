@@ -12,17 +12,6 @@
         - "{{ playbook_dir }}/config.yml"
       tags: ['always']
 
-    - name: Accept Xcode license (if Xcode is installed).
-      command: xcodebuild -license accept
-      become: true
-      register: xcode_license_result
-      changed_when: "'license accepted' in xcode_license_result.stdout | default('')"
-      failed_when: >
-        xcode_license_result.rc != 0
-        and 'already agreed' not in (xcode_license_result.stderr | default(''))
-      when: "'/usr/bin/xcodebuild' is exists"
-      tags: ['always']
-
   roles:
     - role: elliotweiser.osx-command-line-tools
     - role: geerlingguy.mac.homebrew

@@ -1,11 +1,11 @@
 ---
-# Accept Xcode license after mas installs Xcode
-# This runs as a post-provision task to catch Xcode installed during playbook run
+# Accept Xcode license if Xcode is installed.
+# This runs as a post-provision task to catch Xcode installed during playbook run.
 
-- name: Check if Xcode is installed.
+- name: Check if xcodebuild is available.
   stat:
-    path: /Applications/Xcode.app
-  register: xcode_app
+    path: /usr/bin/xcodebuild
+  register: xcodebuild_binary
 
 - name: Accept Xcode license.
   command: xcodebuild -license accept
@@ -16,9 +16,9 @@
     xcode_license_result.rc != 0
     and 'already agreed' not in (xcode_license_result.stderr | default(''))
     and 'already accepted' not in (xcode_license_result.stderr | default(''))
-  when: xcode_app.stat.exists
+  when: xcodebuild_binary.stat.exists
 
 - name: Display Xcode license status.
   debug:
     msg: "Xcode license has been accepted."
-  when: xcode_app.stat.exists and xcode_license_result.changed | default(false)
+  when: xcodebuild_binary.stat.exists and xcode_license_result.changed | default(false)
