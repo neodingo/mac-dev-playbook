@@ -1,0 +1,33 @@
+---
+- name: Create AI apps folder.
+  file:
+    path: "{{ ansible_facts['env']['HOME'] }}/Applications/AI"
+    state: directory
+    mode: "0755"
+
+- name: Create alias to Claude in AI folder.
+  command: >
+    osascript -e 'tell application "Finder" to make alias file to
+    POSIX file "/Applications/Claude.app" at POSIX file "{{ ansible_facts['env']['HOME'] }}/Applications/AI"'
+  args:
+    creates: "{{ ansible_facts['env']['HOME'] }}/Applications/AI/Claude"
+
+- name: Create alias to LM Studio in AI folder.
+  command: >
+    osascript -e 'tell application "Finder" to make alias file to
+    POSIX file "/Applications/LM Studio.app" at POSIX file "{{ ansible_facts['env']['HOME'] }}/Applications/AI"'
+  args:
+    creates: "{{ ansible_facts['env']['HOME'] }}/Applications/AI/LM Studio"
+
+- name: Add AI folder to dock with fan view.
+  command: >
+    dockutil --add "{{ ansible_facts['env']['HOME'] }}/Applications/AI"
+    --view fan
+    --display stack
+    --sort name
+    --replacing 'AI'
+    --no-restart
+
+- name: Display AI dock folder status.
+  debug:
+    msg: "AI folder added to dock with fan view at {{ ansible_facts['env']['HOME'] }}/Applications/AI"

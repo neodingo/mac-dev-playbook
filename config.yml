@@ -92,6 +92,7 @@ homebrew_cask_apps:
   - iina        # Modern video player
 
   # AI/ML
+  - claude      # Claude desktop app
   - lm-studio   # Local LLM runner
 
 # =============================================================================
