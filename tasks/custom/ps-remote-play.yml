@@ -14,6 +14,7 @@
 - name: Install PS Remote Play.
   become: true
   command: installer -pkg /tmp/RemotePlayInstaller.pkg -target /
+  changed_when: true
   when: not ps_remote_play_app.stat.exists
 
 - name: Clean up PS Remote Play installer.
