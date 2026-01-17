@@ -71,3 +71,24 @@ The playbook runs in this order:
 - `configure_*` booleans - Toggle features: `dotfiles`, `terminal`, `osx`, `dock`, `sudoers`, `sublime`
 - `*_packages` - Extra packages: `composer_packages`, `gem_packages`, `npm_packages`, `pip_packages`
 - `post_provision_tasks` - Glob pattern for additional task files to run at the end
+
+### Style Conventions
+
+#### Path Expansion
+- Use `~` for paths in Ansible module parameters (file, copy, stat, get_url, etc.)
+- Use `{{ ansible_facts['env']['HOME'] }}` for paths in:
+  - `command` or `shell` module command strings (not args like `creates`)
+  - Template files
+  - When the literal expanded path is needed
+- The `~` shorthand is expanded by Python's `os.path.expanduser` in most modules
+
+#### When Clauses
+- Use unquoted simple conditions: `when: configure_dotfiles`
+- Use single quotes for string comparisons: `when: "'value' in variable"`
+- Use boolean expressions without quotes: `when: not variable.stat.exists`
+
+#### Command Tasks
+- Always include `changed_when` on command/shell tasks
+- Use `changed_when: false` for read-only commands
+- Use `changed_when: true` when the command always changes state
+- Use conditional `changed_when` when change detection is possible
