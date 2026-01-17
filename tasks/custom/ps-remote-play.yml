@@ -25,4 +25,3 @@
 - name: Display PS Remote Play installation status.
   debug:
     msg: "PS Remote Play is installed at /Applications/RemotePlay.app"
-  when: ps_remote_play_app.stat.exists or not ps_remote_play_app.stat.exists
