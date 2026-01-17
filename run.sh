@@ -38,6 +38,20 @@ fi
 
 cd "${SCRIPT_DIR}"
 
+# Check Xcode license if Xcode is installed
+echo -e "${BLUE}==> Checking prerequisites...${NC}"
+if [[ -x /usr/bin/xcodebuild ]]; then
+    if ! /usr/bin/xcodebuild -license check &>/dev/null; then
+        echo -e "${YELLOW}Warning: Xcode license not accepted.${NC}"
+        echo "   Some tasks may fail until the license is accepted."
+        echo "   Run: sudo xcodebuild -license accept"
+        echo ""
+    else
+        echo "    Xcode license: accepted"
+    fi
+fi
+echo ""
+
 # Get sudo password upfront
 echo -e "${YELLOW}==> Sudo password required for playbook execution${NC}"
 echo "Please enter your password (it will be used for both dry-run and execution):"

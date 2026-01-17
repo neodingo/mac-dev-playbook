@@ -17,8 +17,15 @@ echo "==> Checking for Xcode Command Line Tools..."
 if ! xcode-select -p &>/dev/null; then
     echo "    Installing Xcode Command Line Tools..."
     xcode-select --install
-    echo "    Please complete the installation dialog, then re-run this script."
-    exit 1
+
+    echo "    Waiting for installation to complete (this may take several minutes)..."
+    echo "    Please complete the installation dialog if prompted."
+
+    # Wait for the installation to complete
+    until xcode-select -p &>/dev/null; do
+        sleep 5
+    done
+    echo "    Xcode Command Line Tools installed successfully."
 else
     echo "    Xcode Command Line Tools already installed."
 fi
@@ -69,6 +76,48 @@ else
     echo "    mas already installed."
 fi
 
+# Install Xcode from Mac App Store (required for many Homebrew packages)
+echo "==> Checking for Xcode..."
+if [[ ! -d "/Applications/Xcode.app" ]]; then
+    echo "    Xcode is required for many Homebrew packages to build correctly."
+    echo "    Installing Xcode from Mac App Store..."
+    echo "    This may take a while (Xcode is ~7GB)..."
+    echo ""
+    echo "    NOTE: You must be signed in to the App Store for this to work."
+    echo "    If installation fails, open App Store, sign in, and re-run this script."
+    echo ""
+    if mas install 497799835; then
+        echo "    Xcode installed successfully."
+    else
+        echo -e "    \033[1;33mWarning: Xcode installation failed.\033[0m"
+        echo "    This usually means you're not signed in to the App Store."
+        echo "    Please open App Store, sign in, then re-run this script."
+        echo ""
+        read -p "    Continue without Xcode? (some packages may fail) [y/N] " -n 1 -r
+        echo ""
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo "    Aborted."
+            exit 1
+        fi
+    fi
+else
+    echo "    Xcode already installed."
+fi
+
+# Accept Xcode license (required before xcodebuild can be used)
+if [[ -d "/Applications/Xcode.app" ]]; then
+    echo "==> Checking Xcode license..."
+    # Select the Xcode.app as the active developer directory
+    sudo xcode-select -s /Applications/Xcode.app/Contents/Developer 2>/dev/null || true
+    if ! /usr/bin/xcodebuild -license check &>/dev/null 2>&1; then
+        echo "    Accepting Xcode license (requires sudo)..."
+        sudo xcodebuild -license accept
+        echo "    Xcode license accepted."
+    else
+        echo "    Xcode license already accepted."
+    fi
+fi
+
 # Determine which Python to use (prefer Homebrew)
 if [[ -x "$(brew --prefix)/bin/python3" ]]; then
     PYTHON_BIN="$(brew --prefix)/bin/python3"
@@ -109,14 +158,6 @@ ansible-galaxy install -r requirements.yml
 
 echo ""
 echo "==> Bootstrap complete!"
-echo ""
-echo "========================================================================"
-echo "  IMPORTANT: Before running the playbook, please ensure you are"
-echo "  logged in to the Mac App Store to install apps like Xcode,"
-echo "  Tailscale, etc."
-echo ""
-echo "  Open the App Store app and sign in with your Apple ID if needed."
-echo "========================================================================"
 echo ""
 echo "To run the playbook:"
 echo "  ./run.sh"
