@@ -54,6 +54,9 @@ homebrew_installed_packages:
   - postgresql
   - mysql
 
+  # AI/ML
+  - gemini-cli  # Google Gemini CLI
+
   # Utilities
   - jq          # JSON processor
   - tmux        # Terminal multiplexer
