@@ -142,30 +142,27 @@ dockitems_persist:
   - name: "Safari"
     path: "/Applications/Safari.app/"
     pos: 1
-  - name: "Google Chrome"
-    path: "/Applications/Google Chrome.app/"
-    pos: 2
   - name: "Discord"
     path: "/Applications/Discord.app/"
-    pos: 3
+    pos: 2
   - name: "Mail"
     path: "/Applications/Mail.app/"
-    pos: 4
+    pos: 3
   - name: "Calendar"
     path: "/Applications/Calendar.app/"
-    pos: 5
+    pos: 4
   - name: "iTerm"
     path: "/Applications/iTerm.app/"
-    pos: 6
+    pos: 5
   - name: "Visual Studio Code"
     path: "/Applications/Visual Studio Code.app/"
-    pos: 7
+    pos: 6
   - name: "Spotify"
     path: "/Applications/Spotify.app/"
-    pos: 8
+    pos: 7
   - name: "PS Remote Play"
     path: "/Applications/PS Remote Play.app/"
-    pos: 9
+    pos: 8
 
 # =============================================================================
 # EXTRA PACKAGES
