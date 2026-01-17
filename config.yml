@@ -161,7 +161,7 @@ dockitems_persist:
     path: "/Applications/Spotify.app/"
     pos: 7
   - name: "PS Remote Play"
-    path: "/Applications/PS Remote Play.app/"
+    path: "/Applications/RemotePlay.app/"
     pos: 8
 
 # =============================================================================
