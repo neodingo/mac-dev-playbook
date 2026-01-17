@@ -6,15 +6,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is an Ansible playbook for automating macOS development environment setup. It installs and configures software via Homebrew, Mac App Store, dotfiles, and various package managers.
 
+## Virtual Environment
+
+All Python/pip operations use the local virtual environment. Activate it before running any commands:
+```bash
+source .venv/bin/activate
+```
+
 ## Common Commands
 
 ### Run the playbook
 ```bash
+source .venv/bin/activate
 ansible-playbook main.yml --ask-become-pass
 ```
 
 ### Install dependencies (required before first run)
 ```bash
+source .venv/bin/activate
 ansible-galaxy install -r requirements.yml
 ```
 
