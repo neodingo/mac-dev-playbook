@@ -11,8 +11,23 @@ dotfiles_repo_accept_hostkey: true
 dotfiles_repo_local_destination: ~/Development/dotfiles
 dotfiles_repo_version: master
 dotfiles_files:
+  # Shell
   - .zshrc
+  - .inputrc
+  # Git
+  - .gitconfig
+  - .gitignore_global
+  # Editors
+  - .vimrc
+  # Tools
+  - .tmux.conf
+  - .npmrc
+  - .psqlrc
+  - .terraformrc
+  # App configs
   - .claude.json
+  - .claude/settings.json
+  - .config/gh/config.yml
 
 # =============================================================================
 # FEATURE TOGGLES
