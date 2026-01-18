@@ -28,12 +28,14 @@ dotfiles_files:
   - .claude.json
   - .claude/settings.json
   - .config/gh/config.yml
+  # macOS preferences
+  - .osx
 
 # =============================================================================
 # FEATURE TOGGLES
 # =============================================================================
 configure_terminal: false
-configure_osx: false
+configure_osx: true
 configure_dock: true
 configure_sudoers: false
 configure_sublime: false
