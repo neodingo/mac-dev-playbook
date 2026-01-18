@@ -120,6 +120,7 @@ mas_installed_apps:
   - {id: 1475387142, name: "Tailscale"}
   - {id: 6444050820, name: "Draw Things"}
   - {id: 1136220934, name: "Infuse"}
+  # Note: Govee Lite and eufy are iOS apps (not native macOS) - install manually from App Store
 
 # Note: PS Remote Play is installed via tasks/custom/ps-remote-play.yml
 
