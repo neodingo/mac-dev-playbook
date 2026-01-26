@@ -6,24 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is an Ansible playbook for automating macOS development environment setup. It installs and configures software via Homebrew, Mac App Store, dotfiles, and various package managers.
 
-## Virtual Environment
+## Common Commands
 
-All Python/pip operations use the local virtual environment. Activate it before running any commands:
+Activate the virtual environment before running any commands:
 ```bash
 source .venv/bin/activate
 ```
-
-## Common Commands
 
 ### Run the playbook
 ```bash
-source .venv/bin/activate
-ansible-playbook main.yml --ask-become-pass
+ansible-playbook main.yml -K
 ```
+Note: `-K` is shorthand for `--ask-become-pass`
 
 ### Install dependencies (required before first run)
 ```bash
-source .venv/bin/activate
 ansible-galaxy install -r requirements.yml
 ```
 
@@ -52,6 +49,8 @@ ansible-playbook main.yml -K --check --diff
 ## CI
 
 GitHub Actions runs lint and integration tests on PRs and pushes to master. Integration tests run the full playbook on macOS 14 and 15 and verify idempotence.
+
+For local VM testing, [UTM](https://mac.getutm.app) or [Tart](https://github.com/cirruslabs/tart) can run macOS guests (note: App Store apps and some proprietary software may not install in VMs).
 
 ## Architecture
 
@@ -86,7 +85,7 @@ The playbook runs in this order:
 
 ### Key Configuration Variables
 - `homebrew_installed_packages` / `homebrew_cask_apps` - Packages to install
-- `mas_installed_apps` - Mac App Store apps (requires App Store login)
+- `mas_installed_apps` - Mac App Store apps (requires prior App Store login; apps install via `mas` CLI)
 - `configure_*` booleans - Toggle features: `dotfiles`, `terminal`, `osx`, `dock`, `sudoers`, `sublime`
 - `*_packages` - Extra packages: `composer_packages`, `gem_packages`, `npm_packages`, `pip_packages`
 - `post_provision_tasks` - Glob pattern for additional task files to run at the end
