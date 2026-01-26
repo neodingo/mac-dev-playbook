@@ -2,6 +2,7 @@
 configure_dotfiles: true
 configure_terminal: true
 configure_osx: true
+configure_icloud: true
 
 # Set to 'true' to configure the Dock via dockutil.
 configure_dock: false

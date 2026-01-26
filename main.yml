@@ -39,6 +39,10 @@
       when: configure_osx
       tags: ['osx']
 
+    - import_tasks: tasks/icloud.yml
+      when: configure_icloud
+      tags: ['icloud']
+
     - import_tasks: tasks/extra-packages.yml
       tags: ['extra-packages']
 

@@ -28,7 +28,7 @@ ansible-galaxy install -r requirements.yml
 ```bash
 ansible-playbook main.yml -K --tags "dotfiles,homebrew"
 ```
-Available tags: `dotfiles`, `homebrew`, `mas`, `extra-packages`, `osx`, `dock`, `terminal`, `sudoers`, `sublime-text`, `post`
+Available tags: `dotfiles`, `homebrew`, `mas`, `extra-packages`, `osx`, `icloud`, `dock`, `terminal`, `sudoers`, `sublime-text`, `post`
 
 ### Linting
 ```bash
@@ -72,6 +72,7 @@ The playbook runs in this order:
    - `sudoers.yml` - Custom sudoers configuration
    - `terminal.yml` - Terminal.app preferences
    - `osx.yml` - Runs the `.osx` dotfile script
+   - `icloud.yml` - Creates `~/iCloud` symlink to iCloud Drive
    - `extra-packages.yml` - Composer, gem, npm, pip packages
    - `sublime-text.yml` - Sublime Text package configuration
 
@@ -86,7 +87,7 @@ The playbook runs in this order:
 ### Key Configuration Variables
 - `homebrew_installed_packages` / `homebrew_cask_apps` - Packages to install
 - `mas_installed_apps` - Mac App Store apps (requires prior App Store login; apps install via `mas` CLI)
-- `configure_*` booleans - Toggle features: `dotfiles`, `terminal`, `osx`, `dock`, `sudoers`, `sublime`
+- `configure_*` booleans - Toggle features: `dotfiles`, `terminal`, `osx`, `icloud`, `dock`, `sudoers`, `sublime`
 - `*_packages` - Extra packages: `composer_packages`, `gem_packages`, `npm_packages`, `pip_packages`
 - `post_provision_tasks` - Glob pattern for additional task files to run at the end
 

@@ -1,0 +1,6 @@
+---
+- name: Create iCloud symlink in home directory.
+  ansible.builtin.file:
+    src: ~/Library/Mobile Documents/com~apple~CloudDocs
+    dest: ~/iCloud
+    state: link
