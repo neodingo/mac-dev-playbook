@@ -25,7 +25,6 @@ dotfiles_files:
   - .psqlrc
   - .terraformrc
   # App configs
-  - .claude.json
   - .claude/settings.json
   - .config/gh/config.yml
   # macOS preferences
