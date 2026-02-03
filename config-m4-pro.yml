@@ -1,0 +1,188 @@
+---
+# Configuration for M4 Pro
+# This file overrides default.config.yml and config.yml in the m4-pro branch
+
+# =============================================================================
+# DOTFILES
+# =============================================================================
+configure_dotfiles: true
+dotfiles_repo: git@github.com:neodingo/dotfiles.git
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_local_destination: ~/Development/ops/dotfiles
+dotfiles_repo_version: master
+dotfiles_files:
+  - .zshrc
+  - .inputrc
+  - .gitconfig
+  - .gitignore_global
+  - .vimrc
+  - .tmux.conf
+  - .npmrc
+  - .psqlrc
+  - .terraformrc
+  - .claude/settings.json
+  - .config/gh/config.yml
+  - .osx
+
+# =============================================================================
+# FEATURE TOGGLES
+# =============================================================================
+configure_terminal: false
+configure_osx: true
+configure_dock: true
+configure_sudoers: false
+configure_sublime: false
+
+# =============================================================================
+# HOMEBREW CLI PACKAGES (Discovered on m4-pro)
+# =============================================================================
+homebrew_installed_packages:
+  # Version control
+  - git
+  - gh
+  - glab
+  
+  # Languages & runtimes
+  - node
+  - python@3.12
+  - python@3.13
+  - python@3.14
+  - go
+  - rust
+  
+  # DevOps & Cloud
+  - terraform
+  - docker-compose
+  
+  # AI/ML & Data
+  - gemini-cli
+  - fastmcp
+  - huggingface-cli
+  - openai-whisper
+  - summarize
+  
+  # Utilities
+  - btop
+  - coreutils
+  - ffmpeg
+  - ffmpeg-full
+  - glow
+  - htop
+  - mactop
+  - midnight-commander
+  - pandoc
+  - portaudio
+  - tree
+  - wget
+  - winetricks
+  - memo
+  - tart
+  - sshpass
+  - oh-my-posh
+  - gifgrep
+  - gogcli
+  - peekaboo
+  - remindctl
+  - supabase
+  - obsidian-cli
+  - jq
+  - tmux
+  - dockutil
+
+# =============================================================================
+# HOMEBREW TAPS
+# =============================================================================
+homebrew_taps:
+  - antoniorodr/memo
+  - apple/apple
+  - cirruslabs/cli
+  - hudochenkov/sshpass
+  - jandedobbeleer/oh-my-posh
+  - steipete/tap
+  - supabase/tap
+  - yakitrak/yakitrak
+
+# =============================================================================
+# HOMEBREW CASK APPS (Discovered on m4-pro)
+# =============================================================================
+homebrew_cask_apps:
+  - background-music
+  - balenaetcher
+  - claude
+  - discord
+  - docker-desktop
+  - font-fira-code-nerd-font
+  - google-chrome
+  - iterm2
+  - lm-studio
+  - obsidian
+  - powershell
+  - sony-ps-remote-play
+  - spotify
+  - steam
+  - utm
+  - visual-studio-code
+  - whisky
+  - winbox
+
+# =============================================================================
+# MAC APP STORE APPS
+# =============================================================================
+mas_installed_apps:
+  - {id: 497799835, name: "Xcode"}
+  - {id: 1475387142, name: "Tailscale"}
+  - {id: 6444050820, name: "Draw Things"}
+  - {id: 1136220934, name: "Infuse"}
+
+# =============================================================================
+# DOCK CONFIGURATION
+# =============================================================================
+dockitems_remove:
+  - Launchpad
+  - TV
+  - Podcasts
+  - News
+  - Keynote
+  - Numbers
+  - Pages
+  - Maps
+  - FaceTime
+  - Freeform
+  - Apps
+  - Messages
+  - Photos
+  - Phone
+  - Contacts
+  - Music
+  - Games
+  - App Store
+  - iPhone Mirroring
+
+dockitems_persist:
+  - name: "Safari"
+    path: "/Applications/Safari.app/"
+    pos: 1
+  - name: "Discord"
+    path: "/Applications/Discord.app/"
+    pos: 2
+  - name: "Mail"
+    path: "/Applications/Mail.app/"
+    pos: 3
+  - name: "Calendar"
+    path: "/Applications/Calendar.app/"
+    pos: 4
+  - name: "iTerm"
+    path: "/Applications/iTerm.app/"
+    pos: 5
+  - name: "Visual Studio Code"
+    path: "/Applications/Visual Studio Code.app/"
+    pos: 6
+  - name: "Spotify"
+    path: "/Applications/Spotify.app/"
+    pos: 7
+  - name: "PS Remote Play"
+    path: "/Applications/RemotePlay.app/"
+    pos: 8
+
+post_provision_tasks:
+  - "{{ playbook_dir }}/tasks/custom/*.yml"
