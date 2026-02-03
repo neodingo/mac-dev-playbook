@@ -76,6 +76,9 @@ homebrew_installed_packages:
   - tree        # Directory tree viewer
   - mc          # Midnight Commander file manager
   - uv          # Fast Python package manager
+  - dockutil    # Dock management
+  - mactop      # Apple Silicon monitor
+  - openai-whisper # Local Whisper CLI
 
   # .NET
   - dotnet
@@ -84,6 +87,13 @@ homebrew_installed_packages:
   - wget
   - openssl
   - readline
+
+# =============================================================================
+# HOMEBREW TAPS
+# =============================================================================
+homebrew_taps:
+  - antoniorodr/memo
+  - steipete/tap
 
 # =============================================================================
 # HOMEBREW CASK APPS (GUI)
@@ -110,6 +120,19 @@ homebrew_cask_apps:
   # AI/ML
   - claude      # Claude desktop app
   - lm-studio   # Local LLM runner
+  - openclaw    # OpenClaw Mac Menu Bar App
+
+# =============================================================================
+# VS CODE EXTENSIONS
+# =============================================================================
+vscode_extensions:
+  - saoudrizwan.claude-dev
+  - ms-python.python
+  - ms-azuretools.vscode-docker
+  - github.copilot
+  - esbenp.prettier-vscode
+  - redhat.vscode-yaml
+  - tailscale.vscode-tailscale
 
 # =============================================================================
 # MAC APP STORE APPS
