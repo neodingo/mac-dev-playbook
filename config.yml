@@ -65,7 +65,6 @@ homebrew_installed_packages:
   # AI/ML
   - gemini-cli  # Google Gemini CLI
   - ollama
-  - ollama-app
 
   # Utilities
   - jq          # JSON processor
@@ -79,6 +78,14 @@ homebrew_installed_packages:
   - dockutil    # Dock management
   - mactop      # Apple Silicon monitor
   - openai-whisper # Local Whisper CLI
+
+  # Clawdbot AI agent dependencies
+  - ffmpeg
+  - memo
+  - remindctl
+  - peekaboo
+  - summarize
+  - mas         # Mac App Store CLI
 
   # .NET
   - dotnet
@@ -121,6 +128,9 @@ homebrew_cask_apps:
   - claude      # Claude desktop app
   - lm-studio   # Local LLM runner
   - openclaw    # OpenClaw Mac Menu Bar App
+
+  # GUI apps
+  - ollama-app  # Ollama desktop app
 
 # =============================================================================
 # VS CODE EXTENSIONS
