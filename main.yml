@@ -39,6 +39,10 @@
       when: configure_osx
       tags: ['osx']
 
+    - import_tasks: tasks/macos-defaults.yml
+      when: configure_macos_defaults
+      tags: ['macos-defaults']
+
     - import_tasks: tasks/extra-packages.yml
       tags: ['extra-packages']
 
