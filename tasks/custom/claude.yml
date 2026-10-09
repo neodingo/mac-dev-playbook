@@ -1,10 +1,10 @@
 ---
 # Claude Code config. ~/.claude/settings.json is generated (Claude Code rewrites it in
 # place, so it must not be a dotfiles symlink). See ~/.dotfiles/claude/README.md.
-- name: Clone the personal Claude plugin marketplace outside iCloud.
+- name: Clone the personal Claude plugin marketplace into the iCloud Development tree.
   ansible.builtin.git:
     repo: git@github.com:neodingo/claude-plugins.git
-    dest: "{{ ansible_facts.user_dir }}/src/claude-plugins"
+    dest: "{{ ansible_facts.user_dir }}/iCloud/Development/projects/claude-plugins"
     update: false
     accept_hostkey: true
   tags: ['claude']
